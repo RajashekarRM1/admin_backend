@@ -55,3 +55,18 @@ def login_user(db: Session, data: LoginRequest):
         "refresh_token": create_refresh_token(payload),
         "token_type": "bearer"
     }
+
+
+def delete_user_by_id(db: Session, user_id: int):
+    user = db.query(UsersRegistration).filter(UsersRegistration.id == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db.delete(user)
+    db.commit()
+
+    return {
+        "message": "User deleted successfully",
+        "user_id": user_id
+    }

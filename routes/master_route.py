@@ -26,8 +26,5 @@ def list_program_types(db: Session = Depends(get_db)):
 
 
 @router.get("/courses", response_model=list[CourseResponse])
-def list_courses(
-    program_type_id: int | None = None,
-    db: Session = Depends(get_db)
-):
+def list_courses(program_type_id: int | None = None,db: Session = Depends(get_db)):
     return get_courses(db, program_type_id)

@@ -60,3 +60,25 @@ def get_application_by_number(db: Session, application_number: str):
     if not app:
         raise HTTPException(status_code=404, detail="Application not found")
     return app
+
+
+def delete_application_by_id(db: Session, application_id: int):
+    application = (
+        db.query(Applications)
+        .filter(Applications.id == application_id)
+        .first()
+    )
+
+    if not application:
+        raise HTTPException(
+            status_code=404,
+            detail="Application not found"
+        )
+
+    db.delete(application)
+    db.commit()
+
+    return {
+        "message": "Application deleted successfully",
+        "application_id": application_id
+    }
